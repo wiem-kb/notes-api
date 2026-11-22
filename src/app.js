@@ -13,6 +13,11 @@ app.get('/health', (req, res) => {
 app.get('/notes', (req, res) => {
   res.json(notes);
 });
+
+app.get('/notes/count', (req, res) => {
+  res.json({ count: notes.length });
+});
+
  
 app.post('/notes', (req, res) => {
   const { text } = req.body || {};

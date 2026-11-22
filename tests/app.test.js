@@ -29,4 +29,11 @@ describe('Notes API', () => {
     const res = await request(app).delete('/notes/9999');
     expect(res.statusCode).toBe(404);
   });
+
+  test('GET /notes/count retourne le nombre de notes', async () => {
+    const res = await request(app).get('/notes/count');
+    expect(res.statusCode).toBe(200);
+    expect(typeof res.body.count).toBe('number');
+  });
+
 });
