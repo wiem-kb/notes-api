@@ -1,0 +1,13 @@
+services:
+  notes-api:
+    build: .
+    image: notes-api:local
+    ports:
+      - "3000:3000"
+    environment:
+      APP_VERSION: "compose"
+    restart: unless-stopped
+docker compose up -d --build
+docker compose ps
+curl http://localhost:3000/health
+docker compose down
