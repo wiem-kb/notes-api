@@ -19,23 +19,23 @@ stage('Recuperation du code') {
     }
     stage('Construction image') {
       steps {
-        sh 'docker build -t ${APP_IMAGE}:${BUILD_NUMBER} .'
+        bat 'docker build -t %APP_IMAGE%:${BUILD_NUMBER} .'
       }
     }
     stage('Deploiement') {
       steps {
-        sh '''
+        bat '''
           docker rm -f ${APP_NAME} || true
-          docker run -d --name ${APP_NAME} -p 3000:3000 \
+          docker run -d --name %APP_NAME% -p 3000:3000 \
             -e APP_VERSION=${BUILD_NUMBER} ${APP_IMAGE}:${BUILD_NUMBER}
         '''
       }
     }
     stage('Verification') {
       steps {
-        sh '''
+        bat '''
           sleep 3
-          docker exec ${APP_NAME} wget -qO- http://localhost:3000/health
+          docker exec %APP_NAME% wget -qO- http://localhost:3000/health
         '''
       }
     }
