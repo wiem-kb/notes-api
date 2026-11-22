@@ -14,7 +14,7 @@ stage('Recuperation du code') {
     }
     stage('Tests') {
       steps {
-        bat 'docker build --target test -t ${APP_IMAGE}:test .'
+        bat 'docker build --target test -t %APP_IMAGE%:test .'
       }
     }
     stage('Construction image') {
