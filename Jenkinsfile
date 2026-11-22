@@ -19,15 +19,15 @@ stage('Recuperation du code') {
     }
     stage('Construction image') {
       steps {
-        bat 'docker build -t %APP_IMAGE%:${BUILD_NUMBER} .'
+        bat 'docker build -t %APP_IMAGE%:%BUILD_NUMBER% .'
       }
     }
     stage('Deploiement') {
       steps {
         bat '''
-          docker rm -f ${APP_NAME} || true
+          docker rm -f %APP_NAME% || true
           docker run -d --name %APP_NAME% -p 3000:3000 \
-            -e APP_VERSION=${BUILD_NUMBER} ${APP_IMAGE}:${BUILD_NUMBER}
+            -e APP_VERSION=%BUILD_NUMBER% %APP_IMAGE%:%BUILD_NUMBER%
         '''
       }
     }
@@ -43,7 +43,7 @@ stage('Recuperation du code') {
  
   post {
     success {
-      echo "Pipeline reussi : version ${env.BUILD_NUMBER} deployee."
+      echo "Pipeline reussi : version %env.BUILD_NUMBER% deployee."
     }
     failure {
       echo 'Pipeline en echec : consulter la console de l etape en erreur.'
